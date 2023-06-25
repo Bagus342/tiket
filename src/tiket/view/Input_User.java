@@ -275,6 +275,11 @@ public class Input_User extends javax.swing.JFrame{
         });
 
         btnDelete.setText("Delete");
+        btnDelete.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnDeleteMouseClicked(evt);
+            }
+        });
         btnDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDeleteActionPerformed(evt);
@@ -439,7 +444,7 @@ public class Input_User extends javax.swing.JFrame{
     }//GEN-LAST:event_btnUpload4ActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -467,6 +472,21 @@ public class Input_User extends javax.swing.JFrame{
         reset();
         
     }//GEN-LAST:event_clearMouseClicked
+
+    private void btnDeleteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDeleteMouseClicked
+        try {
+            Connection connection = MysqlConnection.Connect();
+            String query = "DELETE FROM user WHERE id = ?";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setInt(1, id);
+            stmnt.execute();
+            JOptionPane.showMessageDialog(null,"Data berhasil di hapus");
+            reset();
+            refresh();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }//GEN-LAST:event_btnDeleteMouseClicked
 
     /**
      * @param args the command line arguments
