@@ -16,7 +16,7 @@ public class MysqlConnection {
     public static Connection Connect(){
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/tiket", "root", "");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tiket", "root", "");
             return connection;
         } catch (Exception e) {
             System.out.println(e.getMessage());
