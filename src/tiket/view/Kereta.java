@@ -465,7 +465,7 @@ public class Kereta extends javax.swing.JFrame {
             Connection connection = MysqlConnection.Connect();
             try {
                 if (validate(txtUsername.getText())) {
-                    String sql = "UPDATE kereta SET nama_kereta = ? kelas = ? WHERE id = ?";
+                    String sql = "UPDATE kereta SET nama_kereta = ?, kelas = ? WHERE id = ?";
                     PreparedStatement pstmt = connection.prepareStatement(sql);
                     pstmt.setString(1, txtUsername.getText());
 

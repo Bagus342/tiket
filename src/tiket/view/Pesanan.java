@@ -7,7 +7,9 @@ package tiket.view;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -23,7 +25,7 @@ public class Pesanan extends javax.swing.JFrame {
         initComponents();
      tblData.removeColumn(tblData.getColumnModel().getColumn(0));
     }
-
+    int i = 1;
     int id;
     
     public void reset() {
@@ -39,6 +41,28 @@ public class Pesanan extends javax.swing.JFrame {
     
     ArrayList<String> idGerbong = new ArrayList<String>();
     ArrayList<String> idKursi = new ArrayList<String>();
+    ArrayList<Integer> index = new ArrayList<Integer>();
+    
+    public void makeKode() {
+        try {
+            index.clear();
+            Connection connection = MysqlConnection.Connect();
+            String query = "SELECT * FROM pesanan";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            ResultSet rs = stmnt.executeQuery();
+            while (rs.next()) {
+                index.add(rs.getRow());
+            }
+            i = index.size();
+        Date date = new Date();
+        SimpleDateFormat s = new SimpleDateFormat("yy.MM.dd");
+        String data = s.format(date) + "." + String.valueOf(i+1);
+        nikField.setText("");
+        nikField.setText(data);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
     
     public void setGerbong () {
         try {
@@ -105,6 +129,7 @@ public class Pesanan extends javax.swing.JFrame {
         pesananButton = new javax.swing.JButton();
         detailPesananButton = new javax.swing.JButton();
         logoutButton = new javax.swing.JButton();
+        userSession = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -161,19 +186,22 @@ public class Pesanan extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(detailPesananButton, javax.swing.GroupLayout.DEFAULT_SIZE, 118, Short.MAX_VALUE)
                     .addComponent(pesananButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(logoutButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(logoutButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(userSession, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(19, 19, 19)
+                .addContainerGap()
+                .addComponent(userSession, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(pesananButton)
                 .addGap(18, 18, 18)
                 .addComponent(detailPesananButton)
                 .addGap(18, 18, 18)
                 .addComponent(logoutButton)
-                .addContainerGap(210, Short.MAX_VALUE))
+                .addContainerGap(184, Short.MAX_VALUE))
         );
 
         jPanel3.setBackground(new java.awt.Color(153, 153, 153));
@@ -392,7 +420,7 @@ public class Pesanan extends javax.swing.JFrame {
     }//GEN-LAST:event_tblDataMouseClicked
 
     private void clearButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearButtonActionPerformed
-        // TODO add your handling code here:
+        reset();
     }//GEN-LAST:event_clearButtonActionPerformed
 
     private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButtonActionPerformed
@@ -400,6 +428,7 @@ public class Pesanan extends javax.swing.JFrame {
     }//GEN-LAST:event_refreshButtonActionPerformed
 
     private void tambahButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tambahButtonActionPerformed
+        makeKode();
         try {
             int getIndex = kursiCombo.getSelectedIndex();
             Connection connection = MysqlConnection.Connect();
@@ -417,6 +446,7 @@ public class Pesanan extends javax.swing.JFrame {
             ptmnt.executeUpdate();
             stmnt2.executeUpdate();
             JOptionPane.showMessageDialog(null, "Pesanan berhasil di buat");
+            reset();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -517,5 +547,6 @@ public class Pesanan extends javax.swing.JFrame {
     private javax.swing.JButton tambahButton;
     private javax.swing.JTable tblData;
     private javax.swing.JTextField tujuanField;
+    private javax.swing.JLabel userSession;
     // End of variables declaration//GEN-END:variables
 }

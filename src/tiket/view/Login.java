@@ -6,7 +6,7 @@ package tiket.view;
 
 import java.sql.*;
 import javax.swing.JOptionPane;
-
+import java.util.prefs.Preferences;
 /**
  *
  * @author ALEXIS
@@ -123,7 +123,7 @@ public class Login extends javax.swing.JFrame {
     private void usernameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_usernameFieldActionPerformed
-
+ 
     private void masukButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_masukButtonActionPerformed
         try {
             Connection connection = MysqlConnection.Connect();
